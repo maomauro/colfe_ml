@@ -2,8 +2,18 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 from pycaret.regression import load_model, predict_model
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:82"],  # O ["http://localhost:82"] para mayor seguridad
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 modelo = load_model('modelo_liquidacion')
 
 class DatosQuincena(BaseModel):
